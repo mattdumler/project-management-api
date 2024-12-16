@@ -1,0 +1,27 @@
+name: Projects
+description: The projects test suite validates the creation, deletion, and general management of projects.
+vars:
+  url: 'http://localhost:8080'
+testcases:
+  # TODO: remove duplication by using variables instead of hardcoded values
+  - name: Create
+    description: Create a new project.
+    steps:
+      - type: http
+        method: POST
+        url: '{{.url}}/1.0/projects/'
+        body: |
+          {
+            "title": "Project One",
+            "description": "A new project.",
+            "link": "http://website.com/project-page"
+          }
+        assertions:
+          - result.statuscode ShouldEqual 201
+          - result.bodyjson ShouldContainKey id
+          - result.bodyjson ShouldContainKey title
+          - result.bodyjson.title ShouldEqual "Project One"
+          - result.bodyjson ShouldContainKey description
+          - result.bodyjson.title ShouldEqual "A new project."
+          - result.bodyjson ShouldContainKey link
+          - result.bodyjson.title ShouldEqual "http://website.com/project-page"
